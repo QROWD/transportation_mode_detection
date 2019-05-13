@@ -105,3 +105,6 @@ venv.bak/
 
 # IDE stuff
 .idea/
+
+# result files
+smoothing/res.csv
