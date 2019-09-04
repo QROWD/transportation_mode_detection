@@ -7,6 +7,7 @@ from datetime import timedelta
 
 import numpy as np
 import pandas as pd
+from accelerometerfeatures.utils import pairwise_iterator
 from accelerometerfeatures.utils.interpolation import Interpolator
 from accelerometerfeatures.utils.pytorch.dataset import \
     AccelerometerDatasetLoader
@@ -17,24 +18,25 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier,
     ExtraTreesClassifier
 from statsmodels.robust import mad
 
-from smoothing.evaluation import MajorityVoteSmoother
+from eval.smoothing import MajorityVoteSmoother
 
+STRETCH_FACTOR = 1
 MODE_TO_INT = {
-    'walk': 1,
-    'bike': 2,
-    'e-bike': 3,
-    'car': 4,
-    'bus': 5,
-    'train': 6,
+    'walk': 1 * STRETCH_FACTOR,
+    'bike': 2 * STRETCH_FACTOR,
+    'e-bike': 3 * STRETCH_FACTOR,
+    'car': 4 * STRETCH_FACTOR,
+    'bus': 5 * STRETCH_FACTOR,
+    'train': 6 * STRETCH_FACTOR,
 }
 
 INT_TO_MODE = {
-    1: 'walk',
-    2: 'bike',
-    3: 'e-bike',
-    4: 'car',
-    5: 'bus',
-    6: 'train',
+    1 * STRETCH_FACTOR: 'walk',
+    2 * STRETCH_FACTOR: 'bike',
+    3 * STRETCH_FACTOR: 'e-bike',
+    4 * STRETCH_FACTOR: 'car',
+    5 * STRETCH_FACTOR: 'bus',
+    6 * STRETCH_FACTOR: 'train'
 }
 
 MAX_VAL = 2 * g
@@ -56,8 +58,7 @@ def spectral_centroid(signal):
     if np.sum(spectrum) == 0:
         normalized_spectrum = spectrum
     else:
-        # like a probability mass function
-        normalized_spectrum = spectrum / np.sum(spectrum)
+        normalized_spectrum = spectrum / np.sum(spectrum)  # like a probability mass function
     normalized_frequencies = np.linspace(0, 1, len(spectrum))
     spectral_centroid_val = np.sum(normalized_frequencies * normalized_spectrum)
 
@@ -413,7 +414,7 @@ def predict(input_data_file_path, model_dir_path, output_file_path=None):
     else:
         with open(output_file_path, 'w') as out_file:
             out_file.writelines(
-                ['%s,%s,%s,%f,%s' % (stg[0], stg[1], stg[2], stg[3], best_model)
+                ['%s,%s,%s,%f,%s\n' % (stg[0], stg[1], stg[2], stg[3], best_model)
                  for stg in best_predictions])
 
 
