@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/164625261.svg)](https://zenodo.org/badge/latestdoi/164625261)
+
 # Installation
 
 ```bash
