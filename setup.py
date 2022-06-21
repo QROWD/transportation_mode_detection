@@ -12,7 +12,7 @@ setup(
     install_requires=[
         'scikit-learn==0.20.2',
         'pandas==0.23.4',
-        'numpy==1.15.4',
+        'numpy==1.22.0',
         'matplotlib==3.0.0',
         'more-itertools==5.0.0',
         'torch==1.0.0',
