@@ -19,6 +19,6 @@ setup(
         'torchvision==0.2.1',
         'xgboost==0.81',
         'statsmodels==0.9.0',
-        'scipy==1.1.0'
+        'scipy==1.10.0'
     ]
 )
